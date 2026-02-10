@@ -58,5 +58,3 @@ O objetivo deste app é fornecer uma ferramenta simples e eficiente para treinar
 
 ---
 Desenvolvido por **Daiane Gouvêa** 🚀
-# english_conversation_cards
-# english_conversation_cards
