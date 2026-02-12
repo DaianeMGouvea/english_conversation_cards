@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/card_model.dart';
 import '../theme/app_theme.dart';
 import '../services/tts_service.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class CardTile extends StatefulWidget {
   final ConversationCard card;
@@ -104,7 +105,11 @@ class _CardTileState extends State<CardTile> with SingleTickerProviderStateMixin
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
-                        ),
+                        )
+                            .animate(target: widget.card.isUsed ? 1 : 0)
+                            .scaleXY(end: 1.2, duration: 100.ms, curve: Curves.easeOut)
+                            .then()
+                            .scaleXY(end: 1.0, duration: 100.ms, curve: Curves.easeIn),
                         const SizedBox(width: 8),
                         // Phrase text
                         Expanded(

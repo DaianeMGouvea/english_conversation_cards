@@ -5,6 +5,7 @@ import '../providers/cards_provider.dart';
 import '../widgets/card_tile.dart';
 import '../widgets/add_card_dialog.dart';
 import '../theme/app_theme.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class CategoryTab extends StatelessWidget {
   final CardCategory category;
@@ -128,7 +129,10 @@ class CategoryTab extends StatelessWidget {
                     onToggleUsed: () => provider.toggleUsed(card.id),
                     onEdit: () => _editCard(context, provider, card),
                     onDelete: () => provider.deleteCard(card.id),
-                  );
+                  )
+                      .animate(delay: (50 * index).ms)
+                      .fadeIn(duration: 300.ms, curve: Curves.easeOut)
+                      .slideX(begin: 0.1, end: 0, duration: 300.ms, curve: Curves.easeOut);
                 },
               ),
             ),

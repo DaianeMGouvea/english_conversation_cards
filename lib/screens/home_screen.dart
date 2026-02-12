@@ -8,6 +8,8 @@ import '../widgets/add_card_dialog.dart';
 import '../widgets/streak_banner.dart';
 import 'category_tab.dart';
 
+import 'package:confetti/confetti.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -18,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late ConfettiController _confettiController;
 
   @override
   void initState() {
@@ -26,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen>
     _tabController.addListener(() {
       if (mounted) setState(() {});
     });
+    
+    _confettiController = ConfettiController(duration: const Duration(seconds: 2));
     
     // Load cards and streak when screen initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -37,7 +42,13 @@ class _HomeScreenState extends State<HomeScreen>
 
       // Connect streak recording to card practice
       cardsProvider.onCardPracticed = () {
+        final alreadyPracticed = streakProvider.practicedToday;
         streakProvider.recordPractice();
+        
+        // Celebrate if it's the first practice of the day!
+        if (!alreadyPracticed) {
+          _confettiController.play();
+        }
       };
     });
   }
@@ -45,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void dispose() {
     _tabController.dispose();
+    _confettiController.dispose();
     super.dispose();
   }
 
@@ -150,15 +162,36 @@ class _HomeScreenState extends State<HomeScreen>
           ],
         ),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          const StreakBanner(),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: CardCategory.values.map((category) {
-                return CategoryTab(category: category);
-              }).toList(),
+          Column(
+            children: [
+              const StreakBanner(),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: CardCategory.values.map((category) {
+                    return CategoryTab(category: category);
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: _confettiController,
+              blastDirectionality: BlastDirectionality.explosive,
+              shouldLoop: false,
+              colors: const [
+                Colors.green,
+                Colors.blue,
+                Colors.pink,
+                Colors.orange,
+                Colors.purple
+              ],
+              numberOfParticles: 20,
+              gravity: 0.3,
             ),
           ),
         ],

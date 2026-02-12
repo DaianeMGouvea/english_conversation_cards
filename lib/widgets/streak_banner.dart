@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/streak_provider.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class StreakBanner extends StatefulWidget {
   const StreakBanner({super.key});
@@ -9,30 +10,7 @@ class StreakBanner extends StatefulWidget {
   State<StreakBanner> createState() => _StreakBannerState();
 }
 
-class _StreakBannerState extends State<StreakBanner>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _fireController;
-  late Animation<double> _fireAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _fireController = AnimationController(
-      duration: const Duration(milliseconds: 1200),
-      vsync: this,
-    )..repeat(reverse: true);
-
-    _fireAnimation = Tween<double>(begin: 0.9, end: 1.15).animate(
-      CurvedAnimation(parent: _fireController, curve: Curves.easeInOut),
-    );
-  }
-
-  @override
-  void dispose() {
-    _fireController.dispose();
-    super.dispose();
-  }
-
+class _StreakBannerState extends State<StreakBanner> {
   @override
   Widget build(BuildContext context) {
     return Consumer<StreakProvider>(
@@ -78,18 +56,26 @@ class _StreakBannerState extends State<StreakBanner>
           child: Row(
             children: [
               // Fire icon with animation
-              AnimatedBuilder(
-                animation: _fireAnimation,
-                builder: (context, child) {
-                  return Transform.scale(
-                    scale: streak > 0 ? _fireAnimation.value : 1.0,
-                    child: Text(
-                      streak > 0 ? '🔥' : '💤',
-                      style: const TextStyle(fontSize: 32),
-                    ),
-                  );
-                },
-              ),
+              Text(
+                streak > 0 ? '🔥' : '💤',
+                style: const TextStyle(fontSize: 32),
+              )
+                  .animate(
+                    onPlay: (controller) => controller.repeat(reverse: true),
+                  )
+                  .scaleXY(
+                    begin: 1.0,
+                    end: 1.2,
+                    duration: 1000.ms,
+                    curve: Curves.easeInOut,
+                  )
+                  .then()
+                  .scaleXY(
+                    begin: 1.2,
+                    end: 1.0,
+                    duration: 1000.ms,
+                    curve: Curves.easeInOut,
+                  ),
               const SizedBox(width: 12),
               // Streak info
               Expanded(
@@ -99,9 +85,7 @@ class _StreakBannerState extends State<StreakBanner>
                     Row(
                       children: [
                         Text(
-                          streak == 1
-                              ? '$streak dia'
-                              : '$streak dias',
+                          streak == 1 ? '$streak dia' : '$streak dias',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -171,10 +155,15 @@ class _StreakBannerState extends State<StreakBanner>
                     color: Colors.white,
                     size: 20,
                   ),
-                ),
+                )
+                    .animate()
+                    .scale(duration: 400.ms, curve: Curves.elasticOut)
+                    .fadeIn(duration: 400.ms),
             ],
           ),
-        );
+        )
+            .animate(target: practicedToday ? 1 : 0)
+            .shimmer(duration: 2000.ms, color: Colors.white.withOpacity(0.2));
       },
     );
   }
