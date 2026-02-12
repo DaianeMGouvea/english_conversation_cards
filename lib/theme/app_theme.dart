@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // Card category colors
   static const Color greenCard = Color(0xFF4CAF50);
   static const Color blueCard = Color(0xFF2196F3);
   static const Color orangeCard = Color(0xFFFF9800);
 
-  // Light theme colors
   static const Color backgroundLight = Color(0xFFF5F5F5);
   static const Color surfaceLight = Colors.white;
   static const Color onSurfaceLight = Color(0xFF1A1A1A);
 
-  // Dark theme colors  
   static const Color backgroundDark = Color(0xFF121212);
   static const Color surfaceDark = Color(0xFF1E1E1E);
   static const Color onSurfaceDark = Color(0xFFE0E0E0);

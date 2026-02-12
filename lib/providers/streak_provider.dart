@@ -47,7 +47,6 @@ class StreakProvider extends ChangeNotifier {
     _totalPracticeDays = _streakBox.get(_totalPracticeDaysKey, defaultValue: 0);
     _lastPracticeDate = _streakBox.get(_lastPracticeDateKey);
 
-    // Check if streak was broken (missed a day)
     _checkStreakContinuity();
 
     notifyListeners();
@@ -63,7 +62,6 @@ class StreakProvider extends ChangeNotifier {
 
     _practicedToday = difference == 0;
 
-    // If more than 1 day has passed, streak is broken
     if (difference > 1) {
       _currentStreak = 0;
       _streakBox.put(_currentStreakKey, _currentStreak);
@@ -73,11 +71,9 @@ class StreakProvider extends ChangeNotifier {
   Future<void> recordPractice() async {
     final today = _todayString();
 
-    // Already practiced today, nothing to update
     if (_lastPracticeDate == today) return;
 
     if (_lastPracticeDate == null) {
-      // First time ever
       _currentStreak = 1;
     } else {
       final lastDate = DateTime.parse(_lastPracticeDate!);
@@ -85,16 +81,12 @@ class StreakProvider extends ChangeNotifier {
       final difference = todayDate.difference(lastDate).inDays;
 
       if (difference == 1) {
-        // Consecutive day — extend streak!
         _currentStreak += 1;
       } else if (difference > 1) {
-        // Missed a day — reset streak
         _currentStreak = 1;
       }
-      // difference == 0 is already handled above
     }
 
-    // Update longest streak
     if (_currentStreak > _longestStreak) {
       _longestStreak = _currentStreak;
     }
@@ -103,7 +95,6 @@ class StreakProvider extends ChangeNotifier {
     _lastPracticeDate = today;
     _practicedToday = true;
 
-    // Persist
     await _streakBox.put(_currentStreakKey, _currentStreak);
     await _streakBox.put(_longestStreakKey, _longestStreak);
     await _streakBox.put(_totalPracticeDaysKey, _totalPracticeDays);

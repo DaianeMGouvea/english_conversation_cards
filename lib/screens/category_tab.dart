@@ -45,7 +45,7 @@ class CategoryTab extends StatelessWidget {
                 Icon(
                   Icons.chat_bubble_outline,
                   size: 64,
-                  color: _categoryColor.withOpacity(0.5),
+                  color: _categoryColor.withValues(alpha: 0.5),
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -68,19 +68,17 @@ class CategoryTab extends StatelessWidget {
 
         return Column(
           children: [
-            // Header with progress and reset
             Container(
               padding: const EdgeInsets.fromLTRB(16, 12, 8, 8),
               child: Row(
                 children: [
-                  // Progress indicator
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: _categoryColor.withOpacity(0.1),
+                      color: _categoryColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -104,7 +102,6 @@ class CategoryTab extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  // Reset button
                   if (usedCount > 0)
                     TextButton.icon(
                       onPressed: () => _confirmReset(context, provider),
@@ -117,7 +114,6 @@ class CategoryTab extends StatelessWidget {
                 ],
               ),
             ),
-            // Cards list
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.only(bottom: 88),

@@ -10,7 +10,6 @@ class CardsProvider extends ChangeNotifier {
   static const String _initializedKey = 'cards_initialized';
   static const _uuid = Uuid();
 
-  /// Callback called when a card is marked as practiced (used).
   VoidCallback? onCardPracticed;
 
   late Box<ConversationCard> _cardsBox;
@@ -99,7 +98,6 @@ class CardsProvider extends ChangeNotifier {
       _cards = _cardsBox.values.toList();
       notifyListeners();
 
-      // Record practice when marking as used
       if (newIsUsed && onCardPracticed != null) {
         onCardPracticed!();
       }

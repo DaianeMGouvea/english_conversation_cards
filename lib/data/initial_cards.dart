@@ -6,7 +6,6 @@ const _uuid = Uuid();
 
 List<ConversationCard> getInitialCards() {
   return [
-    // GREEN CARDS - Perguntas/Iniciadoras de conversa
     ConversationCard(
       id: _uuid.v4(),
       phrase: "How's it going?",
@@ -68,7 +67,6 @@ List<ConversationCard> getInitialCards() {
       category: CardCategory.green,
     ),
 
-    // BLUE CARDS - Respostas/Reações
     ConversationCard(
       id: _uuid.v4(),
       phrase: "Not much, just chilling. You?",
@@ -148,7 +146,6 @@ List<ConversationCard> getInitialCards() {
       category: CardCategory.blue,
     ),
 
-    // ORANGE CARDS - Despedidas
     ConversationCard(
       id: _uuid.v4(),
       phrase: "Well, I gotta run. See you later!",

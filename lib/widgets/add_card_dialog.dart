@@ -116,7 +116,7 @@ class _AddCardDialogState extends State<AddCardDialog> {
                   hintText: 'Ex: Como você está?',
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: _categoryColor.withOpacity(0.6), width: 2),
+                    borderSide: BorderSide(color: _categoryColor.withValues(alpha: 0.6), width: 2),
                   ),
                 ),
               ),

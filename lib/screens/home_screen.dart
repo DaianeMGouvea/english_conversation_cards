@@ -32,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen>
     
     _confettiController = ConfettiController(duration: const Duration(seconds: 2));
     
-    // Load cards and streak when screen initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final cardsProvider = context.read<CardsProvider>();
       final streakProvider = context.read<StreakProvider>();
@@ -40,12 +39,10 @@ class _HomeScreenState extends State<HomeScreen>
       cardsProvider.loadCards();
       streakProvider.loadStreak();
 
-      // Connect streak recording to card practice
       cardsProvider.onCardPracticed = () {
         final alreadyPracticed = streakProvider.practicedToday;
         streakProvider.recordPractice();
         
-        // Celebrate if it's the first practice of the day!
         if (!alreadyPracticed) {
           _confettiController.play();
         }

@@ -40,19 +40,16 @@ class _CardTileState extends State<CardTile> with SingleTickerProviderStateMixin
   void _onHorizontalDragUpdate(DragUpdateDetails details) {
     setState(() {
       _dragOffset += details.delta.dx;
-      // Limitar o arraste
       _dragOffset = _dragOffset.clamp(-150.0, 150.0);
     });
   }
 
   void _onHorizontalDragEnd(DragEndDetails details) {
-    // Se arrastou mais de 50px, mostra/esconde a tradução
     if (_dragOffset.abs() > 50) {
       setState(() {
         _showTranslation = !_showTranslation;
       });
     }
-    // Animar de volta para a posição original
     setState(() {
       _dragOffset = 0;
     });
@@ -82,8 +79,8 @@ class _CardTileState extends State<CardTile> with SingleTickerProviderStateMixin
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: _showTranslation 
-                      ? _categoryColor.withOpacity(0.6)
-                      : _categoryColor.withOpacity(0.3),
+                      ? _categoryColor.withValues(alpha: 0.6)
+                      : _categoryColor.withValues(alpha: 0.3),
                   width: _showTranslation ? 2 : 1,
                 ),
               ),
@@ -94,7 +91,6 @@ class _CardTileState extends State<CardTile> with SingleTickerProviderStateMixin
                   children: [
                     Row(
                       children: [
-                        // Checkbox
                         Transform.scale(
                           scale: 1.1,
                           child: Checkbox(
@@ -111,7 +107,6 @@ class _CardTileState extends State<CardTile> with SingleTickerProviderStateMixin
                             .then()
                             .scaleXY(end: 1.0, duration: 100.ms, curve: Curves.easeIn),
                         const SizedBox(width: 8),
-                        // Phrase text
                         Expanded(
                           child: Text(
                             widget.card.phrase,
@@ -120,13 +115,12 @@ class _CardTileState extends State<CardTile> with SingleTickerProviderStateMixin
                                   ? TextDecoration.lineThrough 
                                   : TextDecoration.none,
                               color: widget.card.isUsed 
-                                  ? theme.colorScheme.onSurface.withOpacity(0.5)
+                                  ? theme.colorScheme.onSurface.withValues(alpha: 0.5)
                                   : theme.colorScheme.onSurface,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
-                        // Swipe hint icon (if has translation)
                         if (hasTranslation && !widget.card.isUsed)
                           Padding(
                             padding: const EdgeInsets.only(left: 4),
@@ -135,20 +129,18 @@ class _CardTileState extends State<CardTile> with SingleTickerProviderStateMixin
                                   ? Icons.translate 
                                   : Icons.swipe_rounded,
                               size: 18,
-                              color: _categoryColor.withOpacity(0.5),
+                              color: _categoryColor.withValues(alpha: 0.5),
                             ),
                           ),
-                        // Sound icon indicator
                         if (!widget.card.isUsed)
                           Padding(
                             padding: const EdgeInsets.only(left: 4, right: 4),
                             child: Icon(
                               Icons.volume_up_rounded,
                               size: 20,
-                              color: _categoryColor.withOpacity(0.6),
+                              color: _categoryColor.withValues(alpha: 0.6),
                             ),
                           ),
-                        // Color indicator
                         Container(
                           width: 8,
                           height: 40,
@@ -159,7 +151,6 @@ class _CardTileState extends State<CardTile> with SingleTickerProviderStateMixin
                         ),
                       ],
                     ),
-                    // Translation (shown on swipe)
                     AnimatedCrossFade(
                       firstChild: const SizedBox.shrink(),
                       secondChild: hasTranslation
@@ -176,7 +167,7 @@ class _CardTileState extends State<CardTile> with SingleTickerProviderStateMixin
                                   vertical: 8,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: _categoryColor.withOpacity(0.1),
+                                  color: _categoryColor.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Row(
@@ -191,7 +182,7 @@ class _CardTileState extends State<CardTile> with SingleTickerProviderStateMixin
                                       child: Text(
                                         widget.card.translation!,
                                         style: theme.textTheme.bodyMedium?.copyWith(
-                                          color: _categoryColor.withOpacity(0.9),
+                                          color: _categoryColor.withValues(alpha: 0.9),
                                           fontStyle: FontStyle.italic,
                                         ),
                                       ),
