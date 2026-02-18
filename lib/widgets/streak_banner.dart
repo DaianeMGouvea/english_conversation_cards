@@ -28,9 +28,9 @@ class _StreakBannerState extends State<StreakBanner> {
                 gradient: LinearGradient(
                   colors: practicedToday
                       ? [
-                          const Color(0xFFFF6B35),
-                          const Color(0xFFFF8C42),
                           const Color(0xFFFFAA5C),
+                          const Color(0xFFFF8C42),
+                          const Color(0xFFFF6B35),
                         ]
                       : isDark
                       ? [Colors.grey.shade800, Colors.grey.shade700]
@@ -50,27 +50,30 @@ class _StreakBannerState extends State<StreakBanner> {
               ),
               child: Row(
                 children: [
-                  Text(
-                        streak > 0 ? '🔥' : '💤',
-                        style: const TextStyle(fontSize: 32),
-                      )
-                      .animate(
-                        onPlay: (controller) =>
-                            controller.repeat(reverse: true),
-                      )
-                      .scaleXY(
-                        begin: 1.0,
-                        end: 1.2,
-                        duration: 1000.ms,
-                        curve: Curves.easeInOut,
-                      )
-                      .then()
-                      .scaleXY(
-                        begin: 1.2,
-                        end: 1.0,
-                        duration: 1000.ms,
-                        curve: Curves.easeInOut,
-                      ),
+                  streak > 0
+                      ? Image.asset(
+                          'lib/assets/giffs/fogo_animado.gif',
+                          width: 40,
+                          height: 40,
+                        )
+                      : Text('💤', style: const TextStyle(fontSize: 30))
+                            .animate(
+                              onPlay: (controller) =>
+                                  controller.repeat(reverse: true),
+                            )
+                            .scaleXY(
+                              begin: 1.0,
+                              end: 1.2,
+                              duration: 1000.ms,
+                              curve: Curves.easeInOut,
+                            )
+                            .then()
+                            .scaleXY(
+                              begin: 1.2,
+                              end: 1.0,
+                              duration: 1000.ms,
+                              curve: Curves.easeInOut,
+                            ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -129,7 +132,7 @@ class _StreakBannerState extends State<StreakBanner> {
                           style: TextStyle(
                             fontSize: 13,
                             color: practicedToday
-                                ? Colors.white.withValues(alpha: 230)
+                                ? Colors.white.withValues(alpha: 270)
                                 : isDark
                                 ? Colors.white54
                                 : Colors.grey.shade600,
@@ -147,7 +150,7 @@ class _StreakBannerState extends State<StreakBanner> {
                           ),
                           child: const Icon(
                             Icons.check,
-                            color: Colors.white,
+                            color: Colors.amber,
                             size: 20,
                           ),
                         )
